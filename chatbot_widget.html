@@ -1,0 +1,487 @@
+<!-- Chatbot Widget CSS Styles -->
+<style>
+  /* Minimize state styles (bubble button) */
+  #chatBubbleToggle {
+    display: none;
+    /* Default hidden until chat-active */
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 9999;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    color: var(--color-darkest);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    animation: chatPulse 2s infinite;
+  }
+
+  #chatBubbleToggle:hover {
+    transform: scale(1.1);
+    background-color: #fcae26;
+  }
+
+  /* Display bubble when active */
+  body.chat-active #chatBubbleToggle {
+    display: flex;
+  }
+
+  /* Force hide if hidden flag is set manually */
+  body.chat-active #chatBubbleToggle.hidden {
+    display: none !important;
+  }
+
+  @keyframes chatPulse {
+
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(232, 148, 10, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    50% {
+      box-shadow: 0 0 0 12px rgba(232, 148, 10, 0), 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  /* Expanded Chat Window */
+  #mediguardian-chatbot {
+    display: none;
+    /* Default hidden */
+    position: fixed;
+    right: 24px;
+    bottom: 80px;
+    z-index: 9999;
+    width: 340px;
+    height: 480px;
+    background-color: var(--color-dark);
+    border: 1px solid var(--color-accent);
+    border-radius: 16px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+    flex-direction: column;
+    overflow: hidden;
+    font-family: var(--font-body);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Display expanded when active and toggled open */
+  body.chat-active #mediguardian-chatbot.open {
+    display: flex;
+  }
+
+  /* Chat Header */
+  .chat-header {
+    background-color: var(--color-darkest);
+    border-bottom: 1px solid rgba(232, 148, 10, 0.2);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .chat-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .chat-bot-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(232, 148, 10, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 1px solid var(--color-accent);
+  }
+
+  .chat-header-title {
+    font-family: var(--font-display);
+    color: var(--color-accent);
+    font-size: 15px;
+    margin: 0;
+    font-weight: normal;
+  }
+
+  #chat-minimize-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-cream);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+
+  #chat-minimize-btn:hover {
+    color: var(--color-accent);
+  }
+
+  /* Chat Messages List */
+  .chat-messages-list {
+    flex-grow: 1;
+    background-color: var(--color-dark);
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent) var(--color-dark);
+  }
+
+  .chat-messages-list::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .chat-messages-list::-webkit-scrollbar-thumb {
+    background: var(--color-mid);
+    border-radius: 4px;
+  }
+
+  .chat-message {
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    animation: msgFadeIn 0.25s forwards ease-out;
+  }
+
+  @keyframes msgFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .user-message {
+    align-self: flex-end;
+    background-color: var(--color-accent);
+    color: var(--color-darkest);
+    border-radius: 18px 18px 4px 18px;
+    max-width: 80%;
+    font-weight: 500;
+  }
+
+  .bot-message {
+    align-self: flex-start;
+    background-color: var(--color-mid);
+    color: var(--color-cream);
+    border-radius: 18px 18px 18px 4px;
+    max-width: 85%;
+  }
+
+  /* Suggestions Chips */
+  .chat-starter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+    width: 100%;
+  }
+
+  .suggestion-chip {
+    background-color: var(--color-darkest);
+    border: 1px solid var(--color-accent);
+    color: var(--color-cream);
+    border-radius: 50px;
+    padding: 8px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-body);
+  }
+
+  .suggestion-chip:hover {
+    background-color: rgba(232, 148, 10, 0.15);
+    transform: translateY(-1px);
+  }
+
+  /* Typing Indicator */
+  .typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background-color: var(--color-mid);
+    padding: 10px 14px;
+    border-radius: 18px 18px 18px 4px;
+    width: fit-content;
+    align-self: flex-start;
+    margin-top: 4px;
+  }
+
+  .typing-indicator .dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+    animation: dotBounce 1.4s infinite ease-in-out both;
+  }
+
+  .typing-indicator .dot:nth-child(1) {
+    animation-delay: -0.32s;
+  }
+
+  .typing-indicator .dot:nth-child(2) {
+    animation-delay: -0.16s;
+  }
+
+  @keyframes dotBounce {
+
+    0%,
+    80%,
+    100% {
+      transform: translateY(0);
+    }
+
+    40% {
+      transform: translateY(-6px);
+    }
+  }
+
+  /* Chat Input Area */
+  .chat-input-row {
+    background-color: var(--color-darkest);
+    border-top: 1px solid rgba(232, 148, 10, 0.2);
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .chat-input-row input {
+    background: transparent;
+    border: none;
+    color: var(--color-cream);
+    flex-grow: 1;
+    font-family: var(--font-body);
+    font-size: 13px;
+    outline: none;
+    padding: 8px 4px;
+  }
+
+  .chat-input-row input::placeholder {
+    color: var(--color-muted);
+  }
+
+  .chat-send-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    border: none;
+    color: var(--color-darkest);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .chat-send-btn:hover {
+    background-color: #fcae26;
+    transform: scale(1.05);
+  }
+
+  .chat-send-btn:active {
+    transform: scale(0.95);
+  }
+</style>
+
+<!-- Chatbot Minimized Toggle Button -->
+<button id="chatBubbleToggle" title="Chat with MediGuardian AI">🤖</button>
+
+<!-- Chatbot Expanded Window -->
+<div id="mediguardian-chatbot">
+  <!-- Header -->
+  <div class="chat-header">
+    <div class="chat-header-left">
+      <div class="chat-bot-avatar">🤖</div>
+      <h3 class="chat-header-title font-display">MediGuardian AI</h3>
+    </div>
+    <button id="chat-minimize-btn" title="Minimize Chat">&minus;</button>
+  </div>
+
+  <!-- Messages List -->
+  <div class="chat-messages-list" id="chat-messages-list">
+    <!-- Bot Welcome Message -->
+    <div class="chat-message bot-message font-body" id="chat-welcome-msg">
+      Hello! I am your MediGuardian AI health assistant. Please upload your medical report to let me evaluate foods
+      against your health metrics.
+    </div>
+
+    <!-- Starter suggestion chips -->
+    <div class="chat-starter-chips" id="chat-starter-chips">
+      <div class="suggestion-chip" onclick="handleChipClick(this)">What does my blood sugar mean?</div>
+      <div class="suggestion-chip" onclick="handleChipClick(this)">Which foods are safe for me?</div>
+      <div class="suggestion-chip" onclick="handleChipClick(this)">Explain my cholesterol</div>
+      <div class="suggestion-chip" onclick="handleChipClick(this)">What vitamins do I need?</div>
+    </div>
+
+    <!-- Typing Indicator -->
+    <div class="typing-indicator" id="chat-typing-indicator" style="display: none;">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </div>
+
+  <!-- Input Row -->
+  <div class="chat-input-row">
+    <input type="text" id="chat-input" placeholder="Ask about your health..." autocomplete="off">
+    <button class="chat-send-btn" id="chat-send-btn">➔</button>
+  </div>
+</div>
+
+<!-- Chatbot Widget Integration Script -->
+<script>
+  // Setup display toggle mechanics
+  const bubbleToggle = document.getElementById('chatBubbleToggle');
+  const chatBox = document.getElementById('mediguardian-chatbot');
+  const minimizeBtn = document.getElementById('chat-minimize-btn');
+  const sendBtn = document.getElementById('chat-send-btn');
+  const chatInput = document.getElementById('chat-input');
+  const messagesList = document.getElementById('chat-messages-list');
+  const starterChips = document.getElementById('chat-starter-chips');
+
+  // Handle open event
+  bubbleToggle.addEventListener('click', () => {
+    chatBox.classList.add('open');
+    bubbleToggle.classList.add('hidden');
+    scrollToBottom();
+  });
+
+  // Handle close/minimize event
+  minimizeBtn.addEventListener('click', () => {
+    chatBox.classList.remove('open');
+    bubbleToggle.classList.remove('hidden');
+  });
+
+  // Attach input and submit actions
+  sendBtn.addEventListener('click', processInput);
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      processInput();
+    }
+  });
+
+  // Process text entered in input box
+  function processInput() {
+    const text = chatInput.value.trim();
+    if (text) {
+      sendChatMessage(text);
+      chatInput.value = '';
+    }
+  }
+
+  // Handle starter chips click
+  function handleChipClick(chipElement) {
+    const text = chipElement.textContent.trim();
+    sendChatMessage(text);
+  }
+
+  // Function to submit chat queries to Flask API endpoint
+  async function sendChatMessage(message) {
+    hideStarterChips();
+    appendMessage('user', message);
+    showTypingIndicator();
+    try {
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: message })
+      });
+      const data = await response.json();
+      hideTypingIndicator();
+      appendMessage('bot', data.answer);
+    } catch (err) {
+      hideTypingIndicator();
+      appendMessage('bot', "I'm having trouble connecting to the server. Please make sure the backend is running.");
+    }
+  }
+
+  // Helper to hide recommendation chips once conversation begins
+  function hideStarterChips() {
+    if (starterChips) {
+      starterChips.style.display = 'none';
+    }
+  }
+
+  // Helper to trigger loading animation
+  function showTypingIndicator() {
+    const indicator = document.getElementById('chat-typing-indicator');
+    if (indicator) {
+      indicator.style.display = 'flex';
+      scrollToBottom();
+    }
+  }
+
+  // Helper to clear loading animation
+  function hideTypingIndicator() {
+    const indicator = document.getElementById('chat-typing-indicator');
+    if (indicator) {
+      indicator.style.display = 'none';
+    }
+  }
+
+  // Helper to append a new message in chat list
+  function appendMessage(sender, text) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `chat-message ${sender}-message font-body`;
+    msgDiv.textContent = text;
+
+    // Always insert before typing indicator so animation remains at the bottom
+    const indicator = document.getElementById('chat-typing-indicator');
+    messagesList.insertBefore(msgDiv, indicator);
+    scrollToBottom();
+  }
+
+  // Helper to scroll message container down
+  function scrollToBottom() {
+    messagesList.scrollTop = messagesList.scrollHeight;
+  }
+
+  // Listen for the custom upload event to welcome patient and load context
+  window.addEventListener('uploadComplete', () => {
+    // Re-verify if patient details are loaded
+    const patient = window.currentPatient;
+    const welcomeMsg = document.getElementById('chat-welcome-msg');
+
+    let welcomeText = "Hello! I've loaded your health profile. You can now search for health-safe foods, and I will highlight any compatibility warnings! What would you like to ask about your report?";
+    if (patient && patient.name) {
+      welcomeText = `Hello ${patient.name}! I've loaded your health profile. You can now search for health-safe foods, and I will highlight any compatibility warnings! What would you like to ask about your report?`;
+    }
+
+    if (welcomeMsg) {
+      welcomeMsg.textContent = welcomeText;
+    }
+
+    // Auto-open chatbot panel when upload completes
+    if (typeof window.enableChatbot === 'function') {
+      window.enableChatbot();
+    }
+    chatBox.classList.add('open');
+    bubbleToggle.classList.add('hidden');
+    scrollToBottom();
+  });
+</script>
