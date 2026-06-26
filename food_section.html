@@ -1,0 +1,1153 @@
+<!-- Food Section Styling -->
+<style>
+  /* Food Section Styles Container */
+  .food-section-wrapper {
+    color: var(--color-cream);
+    font-family: var(--font-body);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Search Container styling */
+  .search-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-container .search-icon {
+    position: absolute;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .search-container input {
+    width: 100%;
+    padding: 16px 20px 16px 56px;
+    background-color: var(--color-dark);
+    border: 1.5px solid var(--color-accent);
+    border-radius: 50px;
+    color: var(--color-cream);
+    font-family: var(--font-body);
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .search-container input::placeholder {
+    color: var(--color-muted);
+  }
+
+  .search-container input:focus {
+    box-shadow: 0 0 16px rgba(232, 148, 10, 0.25);
+    background-color: var(--color-mid);
+  }
+
+  /* Subsection titles styling */
+  .subsection-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: normal;
+    color: var(--color-cream);
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+
+  /* Restaurant Row styling */
+  .restaurants-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .restaurants-row {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 8px 4px 16px 4px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent) var(--color-dark);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Scrollbar styles for Horizontal Row */
+  .restaurants-row::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .restaurants-row::-webkit-scrollbar-track {
+    background: var(--color-darkest);
+    border-radius: 10px;
+  }
+
+  .restaurants-row::-webkit-scrollbar-thumb {
+    background: var(--color-mid);
+    border-radius: 10px;
+    border: 1px solid var(--color-accent);
+  }
+
+  .restaurant-card {
+    flex: 0 0 200px;
+    width: 200px;
+    background-color: var(--color-dark);
+    border: 1.5px solid transparent;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .restaurant-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+    box-shadow: 0 8px 24px rgba(232, 148, 10, 0.15);
+  }
+
+  .restaurant-card.active {
+    border: 2px solid var(--color-accent);
+    box-shadow: 0 0 16px rgba(232, 148, 10, 0.25);
+    background-color: var(--color-mid);
+  }
+
+  .restaurant-img-wrapper {
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .restaurant-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .restaurant-card:hover .restaurant-img {
+    transform: scale(1.05);
+  }
+
+  .restaurant-card-content {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+  }
+
+  .restaurant-name {
+    font-family: var(--font-display);
+    color: var(--color-cream);
+    font-size: 15px;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .restaurant-domain {
+    display: inline-block;
+    background-color: rgba(232, 148, 10, 0.15);
+    color: var(--color-accent);
+    font-family: var(--font-body);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 50px;
+    width: fit-content;
+    font-weight: 500;
+  }
+
+  .restaurant-rating {
+    font-size: 12px;
+    color: var(--color-accent);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .restaurant-link {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--color-accent);
+    margin-top: auto;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: transform 0.2s;
+  }
+
+  .restaurant-card:hover .restaurant-link {
+    transform: translateX(2px);
+  }
+
+  /* Foods Grid styling */
+  .foods-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .foods-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 8px;
+  }
+
+  .food-card {
+    background-color: var(--color-mid);
+    border: 1.5px solid transparent;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .food-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+    box-shadow: 0 8px 24px rgba(232, 148, 10, 0.15);
+  }
+
+  .food-img-wrapper {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .food-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .food-card:hover .food-img {
+    transform: scale(1.05);
+  }
+
+  .food-name {
+    font-family: var(--font-display);
+    color: var(--color-cream);
+    font-size: 15px;
+    padding: 12px 12px 4px 12px;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .food-desc {
+    font-family: var(--font-body);
+    color: var(--color-muted);
+    font-size: 12px;
+    padding: 0 12px 12px 12px;
+    margin: 0;
+    line-height: 1.4;
+    height: 34px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .food-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px 12px 12px;
+    margin-top: auto;
+  }
+
+  .food-calories {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--color-accent);
+  }
+
+  /* Health Tag Pills */
+  .food-tags {
+    display: flex;
+    gap: 6px;
+  }
+
+  .health-tag {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 50px;
+    text-transform: capitalize;
+  }
+
+  .health-tag.healthy {
+    background-color: #16a34a;
+    color: var(--color-cream);
+  }
+
+  .health-tag.moderate {
+    background-color: #92400e;
+    color: #FCD34D;
+  }
+
+  .health-tag.high {
+    background-color: #7f1d1d;
+    color: #F87171;
+  }
+
+  .order-btn {
+    background-color: var(--color-accent);
+    color: var(--color-darkest);
+    border: none;
+    width: calc(100% - 24px);
+    margin: 0 12px 12px 12px;
+    border-radius: 8px;
+    padding: 10px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    outline: none;
+  }
+
+  .order-btn:hover {
+    background-color: #fcae26;
+    transform: scale(1.02);
+  }
+
+  .order-btn:active {
+    transform: scale(0.98);
+  }
+
+  /* Modals Overlay styling */
+  .food-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    animation: fadeIn 0.3s forwards ease-out;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  .food-modal {
+    background-color: var(--color-dark);
+    border-radius: 20px;
+    padding: 32px;
+    width: 90%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    animation: scaleIn 0.3s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .food-modal.amber-border {
+    border: 1.5px solid var(--color-accent);
+    max-width: 420px;
+  }
+
+  .food-modal.green-border {
+    border: 1.5px solid #16a34a;
+    max-width: 420px;
+    box-shadow: 0 0 30px rgba(22, 163, 74, 0.15);
+  }
+
+  .food-modal.red-border {
+    border: 2px solid #dc2626;
+    max-width: 460px;
+    box-shadow: 0 0 30px rgba(220, 38, 38, 0.15);
+  }
+
+  .modal-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 24px;
+    color: var(--color-muted);
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+
+  .modal-close-btn:hover {
+    color: var(--color-cream);
+  }
+
+  .modal-title {
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  .modal-title.red-text {
+    color: #F87171;
+  }
+
+  .modal-food-info {
+    font-size: 15px;
+    margin-bottom: 20px;
+    color: var(--color-cream);
+  }
+
+  .accent-text {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  .muted-text {
+    color: var(--color-muted);
+  }
+
+  .bold-text {
+    font-weight: 600;
+  }
+
+  .modal-divider {
+    width: 100%;
+    border: 0;
+    height: 1px;
+    background-color: var(--color-mid);
+    margin: 16px 0;
+  }
+
+  .delivery-time {
+    font-size: 15px;
+    margin: 8px 0;
+  }
+
+  .compatibility-msg {
+    color: #4ade80;
+    font-size: 13px;
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+
+  /* Modal Buttons */
+  .modal-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    border: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    display: inline-block;
+  }
+
+  .modal-btn.primary-btn {
+    background-color: var(--color-accent);
+    color: var(--color-darkest);
+  }
+
+  .modal-btn.primary-btn:hover {
+    background-color: #fcae26;
+  }
+
+  .modal-btn.secondary-btn {
+    background: transparent;
+    border: 1.5px solid var(--color-accent);
+    color: var(--color-cream);
+  }
+
+  .modal-btn.secondary-btn:hover {
+    background-color: rgba(232, 148, 10, 0.1);
+  }
+
+  .modal-btn.danger-btn {
+    background-color: #7f1d1d;
+    color: var(--color-cream);
+  }
+
+  .modal-btn.danger-btn:hover {
+    background-color: #991b1b;
+  }
+
+  /* Warnings and Savage Text */
+  .warning-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 16px;
+    text-align: left;
+  }
+
+  .warning-card {
+    background-color: var(--color-mid);
+    border-left: 3px solid #dc2626;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--color-cream);
+  }
+
+  .savage-card {
+    background-color: var(--color-mid);
+    border: 1px solid var(--color-accent);
+    border-radius: 8px;
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 24px;
+  }
+
+  .savage-label {
+    display: block;
+    font-size: 10px;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+
+  .savage-text {
+    font-style: italic;
+    color: var(--color-accent);
+    font-size: 15px;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .warning-buttons-stacked {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  /* Info Icon Circle Animation */
+  .info-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  /* CSS Animations for Checkmark */
+  .checkmark-wrapper {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 12px;
+  }
+
+  .checkmark-circle {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    border-radius: 50%;
+    border: 4px solid #16a34a;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: checkmarkPulse 1.5s infinite ease-in-out;
+  }
+
+  .checkmark-stem {
+    width: 4px;
+    height: 30px;
+    background-color: #16a34a;
+    position: absolute;
+    left: 42px;
+    top: 20px;
+    transform: rotate(45deg);
+    border-radius: 2px;
+    transform-origin: bottom center;
+    animation: drawStem 0.4s ease-out forwards;
+  }
+
+  .checkmark-kick {
+    width: 16px;
+    height: 4px;
+    background-color: #16a34a;
+    position: absolute;
+    left: 24px;
+    top: 44px;
+    transform: rotate(45deg);
+    border-radius: 2px;
+    transform-origin: right center;
+    animation: drawKick 0.4s ease-out forwards;
+  }
+
+  @keyframes checkmarkPulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.4);
+    }
+
+    70% {
+      box-shadow: 0 0 0 10px rgba(22, 163, 74, 0);
+    }
+
+    100% {
+      box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
+    }
+  }
+
+  /* Red Warning Circle Pulse */
+  .warning-circle-wrapper {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 12px;
+  }
+
+  .warning-circle-pulse {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: rgba(220, 38, 38, 0.15);
+    border: 3px solid #dc2626;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: redPulse 1.5s infinite;
+    box-sizing: border-box;
+  }
+
+  .warning-icon {
+    font-size: 32px;
+    color: #dc2626;
+  }
+
+  @keyframes redPulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.6);
+      transform: scale(1);
+    }
+
+    50% {
+      box-shadow: 0 0 0 12px rgba(220, 38, 38, 0);
+      transform: scale(1.05);
+    }
+
+    100% {
+      box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+      transform: scale(1);
+    }
+  }
+
+  /* Order Anyway Toast */
+  .food-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--color-accent);
+    color: var(--color-darkest);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: bold;
+    padding: 12px 24px;
+    border-radius: 50px;
+    z-index: 100005;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    animation: toastFadeInOut 3s ease forwards;
+    white-space: nowrap;
+  }
+
+  @keyframes toastFadeInOut {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, 20px);
+    }
+
+    10% {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    90% {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -20px);
+    }
+  }
+</style>
+
+<!-- Food Section DOM Elements -->
+<div class="food-section-wrapper">
+  <!-- Search Bar -->
+  <div class="search-container">
+    <span class="search-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </span>
+    <input type="text" id="food-search-input" placeholder="Search any food across all restaurants..."
+      autocomplete="off">
+  </div>
+
+  <!-- Restaurants Horizontal Carousel -->
+  <div class="restaurants-section">
+    <h3 class="subsection-title">Featured Restaurants</h3>
+    <div class="restaurants-row" id="restaurants-row">
+      <!-- Injected via JavaScript -->
+    </div>
+  </div>
+
+  <!-- Food Grid -->
+  <div class="foods-section">
+    <h3 class="subsection-title" id="food-grid-title">Menu</h3>
+    <div class="foods-grid" id="foods-grid">
+      <!-- Injected via JavaScript -->
+    </div>
+  </div>
+</div>
+
+<!-- Modals System -->
+<!-- Upload Info Modal (Amber) -->
+<div class="food-modal-overlay" id="upload-info-modal" style="display: none;">
+  <div class="food-modal amber-border">
+    <div class="modal-close-btn" onclick="closeFoodModal('upload-info-modal')">&times;</div>
+    <div class="info-icon-container">
+      <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+    </div>
+    <h3 class="modal-title font-display">Medical Report Required</h3>
+    <p class="modal-food-info font-body" style="margin-bottom: 24px;">Please upload your medical report first to enable
+      health-safe ordering.</p>
+    <a href="#upload" class="modal-btn primary-btn font-body" onclick="closeFoodModal('upload-info-modal')">Go to Upload
+      Section</a>
+  </div>
+</div>
+
+<!-- Safe Order Modal (Green) -->
+<div class="food-modal-overlay" id="safe-order-modal" style="display: none;">
+  <div class="food-modal green-border">
+    <div class="modal-close-btn" onclick="closeFoodModal('safe-order-modal')">&times;</div>
+    <div class="checkmark-wrapper">
+      <div class="checkmark-circle">
+        <div class="checkmark-stem"></div>
+        <div class="checkmark-kick"></div>
+      </div>
+    </div>
+    <h3 class="modal-title font-display">✅ Order Placed!</h3>
+    <p class="modal-food-info font-body"><span id="safe-food-name" class="accent-text">Food Name</span> at <span
+        id="safe-restaurant-name" class="muted-text">Restaurant</span></p>
+    <hr class="modal-divider" />
+    <p class="delivery-time font-body">🛵 Estimated Delivery: <span id="safe-delivery-time" class="bold-text">30
+        min</span></p>
+    <p class="compatibility-msg font-body">This food is compatible with your health profile 💚</p>
+    <button class="modal-btn primary-btn font-body" onclick="closeFoodModal('safe-order-modal')">Continue
+      Ordering</button>
+  </div>
+</div>
+
+<!-- Warning Modal (Red) -->
+<div class="food-modal-overlay" id="warning-order-modal" style="display: none;">
+  <div class="food-modal red-border">
+    <div class="modal-close-btn" onclick="closeFoodModal('warning-order-modal')">&times;</div>
+    <div class="warning-circle-wrapper">
+      <div class="warning-circle-pulse">
+        <span class="warning-icon">⚠️</span>
+      </div>
+    </div>
+    <h3 class="modal-title red-text font-display">Health Warning</h3>
+    <p class="modal-food-info font-body"><span id="warning-food-name" class="bold-text">Food Name</span> at <span
+        id="warning-restaurant-name" class="muted-text">Restaurant</span></p>
+
+    <div class="warning-cards-container" id="warning-cards-container">
+      <!-- Generated via JavaScript -->
+    </div>
+
+    <div class="savage-card">
+      <span class="savage-label">💬 Your AI Guardian says:</span>
+      <p class="savage-text font-display" id="savage-text">Savage line</p>
+    </div>
+
+    <div class="warning-buttons-stacked">
+      <button class="modal-btn secondary-btn font-body" onclick="closeFoodModal('warning-order-modal')">← Change
+        Order</button>
+      <button class="modal-btn danger-btn font-body" id="order-anyway-btn">Order Anyway 🤷</button>
+    </div>
+  </div>
+</div>
+
+<!-- Food Ordering Script -->
+<script>
+  // Hardcoded Restaurants Data
+  const RESTAURANTS = [
+    {
+      id: 'sweetcraze', name: 'SweetCraze', emoji: '🍰', domain: 'Desserts & Sweets', rating: 4.3,
+      image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400',
+      foods: [
+        { name: 'Chocolate Fudge Cake', cal: 450, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400', desc: 'Rich dark chocolate layers with fudge frosting', tags: ['High Sugar', 'High Fat'] },
+        { name: 'Mango Ice Cream', cal: 320, image: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=400', desc: 'Creamy Alphonso mango gelato', tags: ['High Sugar'] },
+        { name: 'Vanilla Custard', cal: 280, image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400', desc: 'Classic French vanilla custard', tags: ['Moderate Sugar'] },
+        { name: 'Caramel Brownie', cal: 390, image: 'https://images.unsplash.com/photo-1564355808539-22fda35bed7e?w=400', desc: 'Gooey caramel-swirled walnut brownie', tags: ['High Sugar', 'High Fat'] },
+        { name: 'Strawberry Cheesecake', cal: 410, image: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400', desc: 'New York style with fresh strawberry compote', tags: ['High Sugar', 'High Fat'] }
+      ]
+    },
+    {
+      id: 'dragonwok', name: 'Dragon Wok', emoji: '🥡', domain: 'Chinese Cuisine', rating: 4.5,
+      image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400',
+      foods: [
+        { name: 'Veg Fried Rice', cal: 380, image: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400', desc: 'Wok-tossed rice with seasonal vegetables', tags: ['High Carb'] },
+        { name: 'Hakka Noodles', cal: 420, image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400', desc: 'Indo-Chinese style flat noodles', tags: ['High Carb'] },
+        { name: 'Manchurian', cal: 290, image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400', desc: 'Crispy veg balls in tangy Manchurian sauce', tags: ['Moderate'] },
+        { name: 'Spring Roll', cal: 180, image: 'https://images.unsplash.com/photo-1548943487-a2e4e43b4853?w=400', desc: 'Crispy rolls with mixed vegetable filling', tags: ['Moderate Fat'] },
+        { name: 'Hot & Sour Soup', cal: 120, image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400', desc: 'Classic spicy tangy Chinese broth', tags: ['Healthy'] }
+      ]
+    },
+    {
+      id: 'keralakitchen', name: 'Kerala Kitchen', emoji: '🌴', domain: 'Kerala Foods', rating: 4.7,
+      image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=400',
+      foods: [
+        { name: 'Appam with Stew', cal: 310, image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=400', desc: 'Lacy rice hoppers with coconut vegetable stew', tags: ['Moderate Carb'] },
+        { name: 'Karimeen Pollichathu', cal: 340, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400', desc: 'Pearl spot fish in banana leaf with spices', tags: ['High Fat'] },
+        { name: 'Puttu & Kadala Curry', cal: 360, image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400', desc: 'Steamed rice cylinders with black chickpea curry', tags: ['Moderate Carb'] },
+        { name: 'Kerala Prawn Curry', cal: 290, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400', desc: 'Coastal Kerala prawns in coconut gravy', tags: ['High Cholesterol'] },
+        { name: 'Banana Flower Stir Fry', cal: 140, image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400', desc: 'Traditional thoran with grated coconut', tags: ['Healthy'] }
+      ]
+    },
+    {
+      id: 'sipzone', name: 'SipZone', emoji: '🍵', domain: 'Beverages', rating: 4.4,
+      image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400',
+      foods: [
+        { name: 'Green Tea', cal: 5, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400', desc: 'Premium Japanese sencha green tea', tags: ['Healthy'] },
+        { name: 'Fresh Orange Juice', cal: 110, image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400', desc: 'Cold-pressed Valencia oranges', tags: ['Moderate Sugar'] },
+        { name: 'Coconut Water', cal: 45, image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400', desc: 'Fresh tender coconut water', tags: ['Healthy'] },
+        { name: 'Beetroot Smoothie', cal: 130, image: 'https://images.unsplash.com/photo-1638176066666-ffb2f013c7dd?w=400', desc: 'Beetroot, apple, ginger cold blend', tags: ['Healthy'] },
+        { name: 'Turmeric Latte', cal: 120, image: 'https://images.unsplash.com/photo-1578345439-8842cf9fa8629?w=400', desc: 'Golden milk with cinnamon and black pepper', tags: ['Healthy'] }
+      ]
+    },
+    {
+      id: 'greenplate', name: 'GreenPlate', emoji: '🥦', domain: 'Pure Veg & Healthy', rating: 4.6,
+      image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400',
+      foods: [
+        { name: 'Quinoa Buddha Bowl', cal: 380, image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400', desc: 'Quinoa, roasted veggies, avocado, tahini', tags: ['Healthy'] },
+        { name: 'Palak Paneer', cal: 290, image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400', desc: 'Cottage cheese in creamy spinach gravy', tags: ['Healthy'] },
+        { name: 'Mixed Sprout Salad', cal: 180, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400', desc: 'Mixed sprouts with lemon herb dressing', tags: ['Healthy'] },
+        { name: 'Lentil Soup', cal: 210, image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400', desc: 'Hearty red lentil soup with cumin', tags: ['Healthy'] },
+        { name: 'Avocado Toast', cal: 320, image: 'https://images.unsplash.com/photo-1541519227354-08fa5d50c820?w=400', desc: 'Sourdough with smashed avocado and microgreens', tags: ['Healthy'] }
+      ]
+    }
+  ];
+
+  // Food Safety Rules Data
+  const FOOD_SAFETY_RULES = {
+    'Chocolate Fudge Cake': { flags: ['high_sugar', 'high_fat'], explanation: 'High refined sugar spikes blood glucose. Saturated fat raises LDL cholesterol.' },
+    'Mango Ice Cream': { flags: ['high_sugar'], explanation: 'High sugar content causes rapid glucose spike within 30 minutes.' },
+    'Vanilla Custard': { flags: ['moderate_sugar'], explanation: 'Moderate sugar — manageable in small portions.' },
+    'Caramel Brownie': { flags: ['high_sugar', 'high_fat', 'high_calorie'], explanation: 'Very high sugar, fat, and calories. Not suitable for diabetic or weight-conscious patients.' },
+    'Strawberry Cheesecake': { flags: ['high_sugar', 'high_fat'], explanation: 'High saturated fat worsens cholesterol. High sugar impacts blood glucose.' },
+    'Veg Fried Rice': { flags: ['high_carb'], explanation: 'Refined carbs from white rice raise blood sugar significantly.' },
+    'Hakka Noodles': { flags: ['high_carb'], explanation: 'Refined carbohydrates elevate blood glucose levels quickly.' },
+    'Manchurian': { flags: ['moderate_fat'], explanation: 'Moderate fat from light frying.' },
+    'Spring Roll': { flags: ['moderate_fat'], explanation: 'Moderate fat content from frying.' },
+    'Hot & Sour Soup': { flags: [], explanation: null },
+    'Karimeen Pollichathu': { flags: ['high_fat'], explanation: 'High in saturated fat from coconut oil — can worsen cholesterol.' },
+    'Kerala Prawn Curry': { flags: ['high_cholesterol'], explanation: 'Prawns are naturally high in dietary cholesterol — risky for cardiac patients.' },
+    'Appam with Stew': { flags: ['moderate_carb'], explanation: 'Moderate carb content.' },
+    'Puttu & Kadala Curry': { flags: ['moderate_carb'], explanation: 'Moderate carb content from rice flour.' },
+    'Banana Flower Stir Fry': { flags: [], explanation: null },
+    'Fresh Orange Juice': { flags: ['moderate_sugar'], explanation: 'Natural sugars still spike glucose.' },
+    'Green Tea': { flags: [], explanation: null },
+    'Coconut Water': { flags: [], explanation: null },
+    'Beetroot Smoothie': { flags: [], explanation: null },
+    'Turmeric Latte': { flags: [], explanation: null },
+    'Quinoa Buddha Bowl': { flags: [], explanation: null },
+    'Palak Paneer': { flags: [], explanation: null },
+    'Mixed Sprout Salad': { flags: [], explanation: null },
+    'Lentil Soup': { flags: [], explanation: null },
+    'Avocado Toast': { flags: [], explanation: null }
+  };
+
+  // Savage Lines for warning messages
+  const SAVAGE_LINES = [
+    "Are you a glucose spike? Because you just made my heart race — and not in a good way.",
+    "I told your arteries they deserved better, but they won't listen.",
+    "Your cholesterol called. It said it doesn't need more friends.",
+    "Even your pancreas is giving you side-eye right now.",
+    "You're so sweet, your blood sugar is already jealous.",
+    "Your BMI just cried a little. Just saying.",
+    "Babe, your liver called and it said 'please, not again.'",
+    "You're about to make your cardiologist very, very busy.",
+    "If your blood report was a Tinder profile, it would swipe left on this food.",
+    "Your HbA1c is already dramatic enough without this drama."
+  ];
+
+  // Active state state-management variables
+  let selectedRestaurantId = RESTAURANTS[0].id;
+
+  // Initialize function
+  function initFoodOrdering() {
+    renderRestaurants();
+    renderFoods();
+
+    // Listen for search input in real time
+    const searchInput = document.getElementById('food-search-input');
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.trim().toLowerCase();
+      renderFoods(query);
+    });
+
+    // Close modal when clicking outside of it
+    window.addEventListener('click', (e) => {
+      if (e.target.classList.contains('food-modal-overlay')) {
+        e.target.style.display = 'none';
+      }
+    });
+  }
+
+  // Render Restaurants row (Horizontal Carousel)
+  function renderRestaurants() {
+    const row = document.getElementById('restaurants-row');
+    row.innerHTML = RESTAURANTS.map(r => `
+      <div class="restaurant-card ${r.id === selectedRestaurantId ? 'active' : ''}" id="rest-card-${r.id}" onclick="selectRestaurant('${r.id}')">
+        <div class="restaurant-img-wrapper">
+          <img class="restaurant-img" src="${r.image}" alt="${r.name}">
+        </div>
+        <div class="restaurant-card-content">
+          <h4 class="restaurant-name font-display">${r.name}</h4>
+          <span class="restaurant-domain">${r.domain}</span>
+          <div class="restaurant-rating">⭐ ${r.rating}</div>
+          <div class="restaurant-link">View Menu &rarr;</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Selection Handler for Restaurant click
+  function selectRestaurant(id) {
+    // Clear search query on click to restore normal menu view
+    document.getElementById('food-search-input').value = '';
+    selectedRestaurantId = id;
+
+    // Toggle active state classes
+    document.querySelectorAll('.restaurant-card').forEach(card => {
+      card.classList.remove('active');
+    });
+    const activeCard = document.getElementById(`rest-card-${id}`);
+    if (activeCard) activeCard.classList.add('active');
+
+    renderFoods();
+  }
+
+  // Map tag names to corresponding styles
+  function getTagClass(tag) {
+    const t = tag.toLowerCase();
+    if (t.includes('healthy')) return 'healthy';
+    if (t.includes('moderate')) return 'moderate';
+    if (t.includes('high') || t.includes('risky') || t.includes('cholesterol')) return 'high';
+    return 'moderate'; // Default fallback
+  }
+
+  // Render Foods to the grid
+  function renderFoods(searchQuery = '') {
+    const grid = document.getElementById('foods-grid');
+    const title = document.getElementById('food-grid-title');
+    let foodsToRender = [];
+
+    if (searchQuery) {
+      title.textContent = `Search Results for "${searchQuery}"`;
+      // Search across all restaurants
+      RESTAURANTS.forEach(r => {
+        r.foods.forEach(f => {
+          if (f.name.toLowerCase().includes(searchQuery) || f.desc.toLowerCase().includes(searchQuery)) {
+            foodsToRender.push({ ...f, restaurantName: r.name, restaurantId: r.id });
+          }
+        });
+      });
+    } else {
+      const currentRest = RESTAURANTS.find(r => r.id === selectedRestaurantId);
+      title.textContent = `${currentRest.name} Menu`;
+      foodsToRender = currentRest.foods.map(f => ({ ...f, restaurantName: currentRest.name, restaurantId: currentRest.id }));
+    }
+
+    if (foodsToRender.length === 0) {
+      grid.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; padding: 48px 16px; color: var(--color-muted);" class="font-body">
+          No food items match your search query. Try searching for something else!
+        </div>
+      `;
+      return;
+    }
+
+    grid.innerHTML = foodsToRender.map(f => {
+      const tagsHtml = f.tags.map(t => {
+        const tagClass = getTagClass(t);
+        return `<span class="health-tag ${tagClass}">${t}</span>`;
+      }).join(' ');
+
+      // Properly escape names for inline click functions
+      const escapedFoodName = f.name.replace(/'/g, "\\'");
+      const escapedRestName = f.restaurantName.replace(/'/g, "\\'");
+
+      return `
+        <div class="food-card">
+          <div class="food-img-wrapper">
+            <img class="food-img" src="${f.image}" alt="${f.name}">
+          </div>
+          <h4 class="food-name font-display">${f.name}</h4>
+          <p class="food-desc font-body">${f.desc}</p>
+          <div class="food-meta-row">
+            <span class="food-calories">${f.cal} cal</span>
+            <div class="food-tags">${tagsHtml}</div>
+          </div>
+          <button class="order-btn font-body" onclick="handleOrderClick('${escapedFoodName}', '${escapedRestName}')">Order</button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Safety Evaluator function
+  function checkFoodSafety(foodName) {
+    const patient = window.currentPatient;
+    if (!patient) return { safe: true };
+    const rule = FOOD_SAFETY_RULES[foodName];
+    if (!rule || rule.flags.length === 0) return { safe: true };
+    const warnings = [];
+    if (rule.flags.includes('high_sugar') && (patient.blood_sugar > 126 || patient.hba1c > 6.5))
+      warnings.push(`Your fasting glucose is ${patient.blood_sugar} mg/dL and HbA1c is ${patient.hba1c}%. ${rule.explanation}`);
+    if ((rule.flags.includes('high_fat') || rule.flags.includes('high_cholesterol')) && (patient.cholesterol > 200 || patient.ldl > 130))
+      warnings.push(`Your LDL is ${patient.ldl} mg/dL and total cholesterol is ${patient.cholesterol} mg/dL. ${rule.explanation}`);
+    if (rule.flags.includes('high_calorie') && patient.bmi > 27)
+      warnings.push(`Your BMI is ${patient.bmi}. This food is calorie-dense and may hinder weight management.`);
+    if (rule.flags.includes('moderate_sugar') && patient.blood_sugar > 150)
+      warnings.push(`Your glucose is elevated at ${patient.blood_sugar} mg/dL. ${rule.explanation}`);
+    if (rule.flags.includes('moderate_carb') && patient.blood_sugar > 140)
+      warnings.push('Moderate carbs can still impact elevated glucose levels.');
+    if (warnings.length === 0) return { safe: true };
+    return { safe: false, warnings, savageLine: SAVAGE_LINES[Math.floor(Math.random() * SAVAGE_LINES.length)] };
+  }
+
+  // Order Click handler
+  function handleOrderClick(foodName, restaurantName) {
+    if (!window.currentPatient) {
+      showFoodModal('upload-info-modal');
+      return;
+    }
+
+    const checkResult = checkFoodSafety(foodName);
+
+    if (checkResult.safe) {
+      // Safe Option: Generate details and show confirmation
+      const randomDelivery = Math.floor(Math.random() * 16) + 25; // Random delivery between 25 and 40 min
+      document.getElementById('safe-food-name').textContent = foodName;
+      document.getElementById('safe-restaurant-name').textContent = restaurantName;
+      document.getElementById('safe-delivery-time').textContent = `${randomDelivery} min`;
+      showFoodModal('safe-order-modal');
+    } else {
+      // Unsafe Option: Populate details, warnings, and savage line, then prompt
+      document.getElementById('warning-food-name').textContent = foodName;
+      document.getElementById('warning-restaurant-name').textContent = restaurantName;
+
+      const container = document.getElementById('warning-cards-container');
+      container.innerHTML = checkResult.warnings.map(w => `
+        <div class="warning-card font-body">${w}</div>
+      `).join('');
+
+      document.getElementById('savage-text').textContent = checkResult.savageLine;
+
+      // Handle override button execution
+      const anywayBtn = document.getElementById('order-anyway-btn');
+      anywayBtn.onclick = () => {
+        closeFoodModal('warning-order-modal');
+        showFoodToast("Order placed 🛵 Your health agent noted this. Stay hydrated! 💪");
+      };
+
+      showFoodModal('warning-order-modal');
+    }
+  }
+
+  // Show Modal Helper
+  function showFoodModal(id) {
+    const modal = document.getElementById(id);
+    if (modal) {
+      modal.style.display = 'flex';
+    }
+  }
+
+  // Close Modal Helper
+  function closeFoodModal(id) {
+    const modal = document.getElementById(id);
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  // Toast builder helper
+  function showFoodToast(message) {
+    // Remove existing toast if it is in DOM
+    const oldToast = document.getElementById('food-order-toast');
+    if (oldToast) oldToast.remove();
+
+    const toast = document.createElement('div');
+    toast.id = 'food-order-toast';
+    toast.className = 'food-toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // Fade out and remove from DOM after 3s
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
+  }
+
+  // Safely initialize code
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFoodOrdering);
+  } else {
+    initFoodOrdering();
+  }
+</script>
