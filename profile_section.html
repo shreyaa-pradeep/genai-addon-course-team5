@@ -1,0 +1,200 @@
+<!-- Profile Section (Section 6) -->
+<section id="profile" style="background:#2C1A0E;padding:40px 0;">
+  <h2 style="text-align:center;color:#FDF0E0;font-family:'Playfair Display',serif;font-size:40px;margin-bottom:8px;position:relative;display:inline-block;">
+    Your Health Profile
+    <span style="position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:#E8940A;display:block;"></span>
+  </h2>
+  <div style="display:flex;flex-wrap:wrap;gap:24px;justify-content:center;margin-top:32px;">
+    <!-- Left Column: User Profile Card -->
+    <div class="card" style="background:#3D2414;border:1px solid #E8940A;border-radius:20px;padding:32px;flex:1 1 300px;max-width:500px;">
+      <div style="text-align:center;margin-bottom:24px;">
+        <div style="width:80px;height:80px;background:#E8940A;color:#1A0E08;font-family:'Playfair Display',serif;font-size:28px;line-height:80px;border-radius:50%;margin:0 auto;">DU</div>
+        <div style="margin-top:8px;color:#FDF0E0;font-family:'Playfair Display',serif;font-size:22px;">Demo User</div>
+        <a href="#" style="color:#E8940A;font-family:'Inter',sans-serif;font-size:13px;display:inline-block;margin-top:4px;">Edit Profile</a>
+      </div>
+      <form id="profile-form" style="display:flex;flex-direction:column;gap:12px;">
+        <label style="color:#C4A882;font-family:'Inter',sans-serif;">Full Name</label>
+        <input type="text" name="fullName" style="background:#1A0E08;border:1px solid #4E2E18;color:#FDF0E0;border-radius:10px;padding:10px 14px;"/>
+        <label style="color:#C4A882;font-family:'Inter',sans-serif;">Email Address</label>
+        <input type="email" name="email" style="background:#1A0E08;border:1px solid #4E2E18;color:#FDF0E0;border-radius:10px;padding:10px 14px;"/>
+        <label style="color:#C4A882;font-family:'Inter',sans-serif;">Age</label>
+        <input type="number" name="age" style="background:#1A0E08;border:1px solid #4E2E18;color:#FDF0E0;border-radius:10px;padding:10px 14px;"/>
+        <label style="color:#C4A882;font-family:'Inter',sans-serif;">Gender</label>
+        <select name="gender" style="background:#1A0E08;border:1px solid #4E2E18;color:#FDF0E0;border-radius:10px;padding:10px 14px;">
+          <option>Male</option><option>Female</option><option>Other</option>
+        </select>
+        <label style="color:#C4A882;font-family:'Inter',sans-serif;">Blood Type</label>
+        <select name="bloodType" style="background:#1A0E08;border:1px solid #4E2E18;color:#FDF0E0;border-radius:10px;padding:10px 14px;">
+          <option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+        </select>
+        <button type="button" id="update-profile" style="background:#E8940A;color:#1A0E08;font-family:'Inter',sans-serif;font-size:14px;padding:12px;border:none;border-radius:10px;margin-top:12px;cursor:pointer;">Update Profile</button>
+      </form>
+      <div id="last-report" style="margin-top:12px;color:#C4A882;font-family:'Inter',sans-serif;font-size:12px;text-align:center;">Last Report Analyzed: --</div>
+    </div>
+
+    <!-- Right Column: Health Summary Card -->
+    <div class="card" style="background:#3D2414;border-top:3px solid #E8940A;border-radius:20px;padding:32px;flex:1 1 300px;max-width:500px;">
+      <h3 style="color:#E8940A;font-family:'Playfair Display',serif;font-size:22px;margin-bottom:8px;">Your Health Dashboard</h3>
+      <hr style="border:none;height:1px;background:#E8940A;margin-bottom:16px;"/>
+      <div id="risk-badge" style="display:flex;justify-content:center;margin-bottom:12px;">
+        <!-- badge injected -->
+      </div>
+      <div id="conditions" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:12px;">
+        <!-- condition pills -->
+      </div>
+      <div style="display:flex;gap:8px;justify-content:space-between;margin-bottom:16px;">
+        <!-- Mini cards -->
+        <div class="mini-card" style="background:#2C1A0E;padding:12px;border:1px solid #E8940A;border-radius:12px;flex:1;text-align:center;">
+          <div style="color:#C4A882;font-family:'Inter',sans-serif;font-size:12px;">Daily Calories</div>
+          <div id="daily-cal" style="color:#FDF0E0;font-family:'Playfair Display',serif;font-size:20px;">--</div>
+          <div style="color:#C4A882;font-family:'Inter',sans-serif;font-size:12px;">kcal</div>
+        </div>
+        <div class="mini-card" style="background:#2C1A0E;padding:12px;border:1px solid #E8940A;border-radius:12px;flex:1;text-align:center;">
+          <div style="color:#C4A882;font-family:'Inter',sans-serif;font-size:12px;">BMI</div>
+          <div id="bmi-val" style="color:#FDF0E0;font-family:'Playfair Display',serif;font-size:20px;">--</div>
+          <div id="bmi-class" style="color:#C4A882;font-family:'Inter',sans-serif;font-size:12px;">--</div>
+        </div>
+        <div class="mini-card" style="background:#2C1A0E;padding:12px;border:1px solid #E8940A;border-radius:12px;flex:1;text-align:center;">
+          <div style="color:#C4A882;font-family:'Inter',sans-serif;font-size:12px;">Risk Score</div>
+          <div id="risk-score" style="color:#FDF0E0;font-family:'Playfair Display',serif;font-size:20px;">--</div>
+          <div style="color:#C4A882;font-family:'Inter',sans-serif;font-size:12px;">/ 100</div>
+        </div>
+      </div>
+      <!-- Mini risk bars -->
+      <div id="risk-bars" style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;">
+        <!-- Each bar row -->
+      </div>
+      <button id="download-summary" style="width:100%;background:#E8940A;color:#1A0E08;font-family:'Inter',sans-serif;padding:12px;border:none;border-radius:10px;margin-bottom:8px;cursor:pointer;">
+        📥 Download Health Summary
+      </button>
+      <button id="reupload-report" style="width:100%;background:#1A0E08;color:#FDF0E0;border:1px solid #E8940A;padding:12px;border-radius:10px;cursor:pointer;">
+        🔄 Re‑upload Medical Report
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  function renderProfileSummary(patient) {
+    // Update last report date
+    document.getElementById('last-report').textContent = 'Last Report Analyzed: ' + new Date().toLocaleDateString();
+
+    // Risk badge
+    const riskLevel = getRiskLevel(patient);
+    const badge = document.createElement('span');
+    badge.textContent = riskLevel;
+    badge.style.display = 'inline-block';
+    badge.style.padding = '6px 24px';
+    badge.style.borderRadius = '24px';
+    badge.style.fontFamily = 'Inter, sans-serif';
+    badge.style.fontSize = '14px';
+    if (riskLevel === 'HIGH') {
+      badge.style.background = '#dc2626';
+      badge.style.color = '#FDF0E0';
+    } else if (riskLevel === 'MEDIUM') {
+      badge.style.background = '#E8940A';
+      badge.style.color = '#1A0E08';
+    } else {
+      badge.style.background = '#16a34a';
+      badge.style.color = '#FDF0E0';
+    }
+    const riskDiv = document.getElementById('risk-badge');
+    riskDiv.innerHTML = '';
+    riskDiv.appendChild(badge);
+
+    // Conditions pills
+    const condContainer = document.getElementById('conditions');
+    condContainer.innerHTML = '';
+    if (patient.conditions && patient.conditions.length) {
+      patient.conditions.forEach(cond => {
+        const pill = document.createElement('span');
+        pill.textContent = cond;
+        pill.style.background = '#dc2626';
+        pill.style.color = '#FDF0E0';
+        pill.style.borderRadius = '24px';
+        pill.style.padding = '4px 12px';
+        pill.style.fontFamily = 'Inter, sans-serif';
+        pill.style.fontSize = '12px';
+        condContainer.appendChild(pill);
+      });
+    } else {
+      const pill = document.createElement('span');
+      pill.textContent = 'No significant conditions ✅';
+      pill.style.background = '#16a34a';
+      pill.style.color = '#FDF0E0';
+      pill.style.borderRadius = '24px';
+      pill.style.padding = '4px 12px';
+      pill.style.fontFamily = 'Inter, sans-serif';
+      pill.style.fontSize = '12px';
+      condContainer.appendChild(pill);
+    }
+
+    // Mini cards values
+    document.getElementById('daily-cal').textContent = patient.daily_calories || '--';
+    const bmi = patient.bmi || '--';
+    document.getElementById('bmi-val').textContent = typeof bmi === 'number' ? bmi.toFixed(1) : '--';
+    if (typeof bmi === 'number') {
+      let classification = 'Normal';
+      if (bmi >= 30) classification = 'Obese';
+      else if (bmi >= 25) classification = 'Overweight';
+      document.getElementById('bmi-class').textContent = classification;
+    }
+    const avgRisk = ((patient.risks?.diabetes||0)+(patient.risks?.cardiovascular||0)+(patient.risks?.obesity||0)+(patient.risks?.nutritional||0))/4;
+    document.getElementById('risk-score').textContent = avgRisk ? Math.round(avgRisk) : '--';
+
+    // Mini risk bars (reuse Kadeeja's style, simplified)
+    const barsContainer = document.getElementById('risk-bars');
+    barsContainer.innerHTML = '';
+    const riskCategories = ['Diabetes','Cardiovascular','Obesity','Nutrition'];
+    const riskValues = [patient.risks?.diabetes, patient.risks?.cardiovascular, patient.risks?.obesity, patient.risks?.nutritional];
+    riskCategories.forEach((cat,i)=>{
+      const val = riskValues[i]||0;
+      const row = document.createElement('div');
+      row.style.display='flex';row.style.alignItems='center';row.style.gap='8px';
+      const label=document.createElement('span');label.textContent=cat;label.style.width='90px';label.style.fontFamily='Inter, sans-serif';label.style.fontSize='12px';label.style.color='#C4A882';
+      const barWrapper=document.createElement('div');
+      barWrapper.style.flex='1';
+      barWrapper.style.height='6px';
+      barWrapper.style.background='#2C1A0E';
+      barWrapper.style.border='1px solid #E8940A';
+      const fill=document.createElement('div');
+      fill.style.height='100%';
+      fill.style.width=val+"%";
+      fill.style.background='#E8940A';
+      barWrapper.appendChild(fill);
+      const perc=document.createElement('span');perc.textContent=val+"%";perc.style.fontFamily='Inter, sans-serif';perc.style.fontSize='12px';perc.style.color='#C4A882';
+      row.appendChild(label);row.appendChild(barWrapper);row.appendChild(perc);
+      barsContainer.appendChild(row);
+    });
+  }
+
+  // Risk level helper
+  function getRiskLevel(patient) {
+    if (!patient || !patient.risks) return 'UNKNOWN';
+    const avg = (patient.risks.diabetes + patient.risks.cardiovascular + patient.risks.obesity + patient.risks.nutritional) / 4;
+    return avg > 60 ? 'HIGH' : avg > 30 ? 'MEDIUM' : 'LOW';
+  }
+
+  // Placeholder state when no patient loaded
+  function showPlaceholder() {
+    const profileSection = document.getElementById('profile');
+    profileSection.innerHTML = '<div style="text-align:center;color:#E8940A;font-family:Inter, sans-serif;font-size:18px;">Upload your medical report to see your health profile</div>';
+  }
+
+  // Event listener for patient load
+  window.addEventListener('patientLoaded', (e) => {
+    const patient = e.detail;
+    renderProfileSummary(patient);
+  });
+
+  // Button actions
+  document.addEventListener('click', (e) => {
+    if (e.target.id === 'download-summary') {
+      window.print();
+    }
+    if (e.target.id === 'reupload-report') {
+      const uploadSection = document.querySelector('#upload');
+      if (uploadSection) uploadSection.scrollIntoView({behavior:'smooth'});
+    }
+  });
+</script>
