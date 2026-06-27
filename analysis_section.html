@@ -1,0 +1,494 @@
+<!-- SECTION 4: Health Analysis & Risk Assessment Cards -->
+<section id="analysis" style="background-color: #1A0E08; padding: 80px 20px; color: #FDF0E0; font-family: 'Inter', sans-serif; min-height: 100vh;">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    
+    <!-- Section Title -->
+    <div style="text-align: center; margin-bottom: 60px;">
+      <h2 style="font-family: 'Playfair Display', serif; font-size: 40px; color: #FDF0E0; margin: 0 0 15px 0; font-weight: 700; letter-spacing: 0.5px;">
+        AI Diagnostics & Analysis
+      </h2>
+      <div style="width: 80px; height: 3px; background-color: #E8940A; margin: 0 auto; box-shadow: 0 0 8px rgba(232, 148, 10, 0.6);"></div>
+      <p style="color: #C4A882; font-size: 15px; margin-top: 15px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Real-time biomedical screening and RAG-driven clinical evaluation. Upload a report above to populate clinical data.
+      </p>
+    </div>
+
+    <!-- Empty State / Loading Overlay (Shown when currentPatient is null) -->
+    <div id="analysis-placeholder" style="background-color: #2C1A0E; border: 1px dashed rgba(232,148,10,0.4); border-radius: 20px; padding: 80px 40px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div style="font-size: 48px; margin-bottom: 20px; animation: pulseIcon 2s infinite alternate;">⏳</div>
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 22px; color: #FDF0E0; margin: 0 0 10px 0;">
+        Awaiting Medical Report Data
+      </h3>
+      <p style="color: #C4A882; font-size: 14px; max-width: 450px; line-height: 1.6; margin: 0;">
+        Please upload your medical report PDF or select one of our synthetic sample patient profiles above to initialize AI Diagnostics.
+      </p>
+    </div>
+
+    <!-- Analysis Grid Container (Hidden initially, shown when patient loaded) -->
+    <div id="analysis-grid" style="display: none; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; opacity: 0; transition: opacity 0.8s ease;">
+      
+      <!-- CARD 1: Health Analysis Agent -->
+      <div class="agent-card" style="background-color: #3D2414; border-top: 3px solid #E8940A; border-radius: 20px; padding: 25px; box-shadow: 0 8px 32px rgba(232,148,10,0.15); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease;">
+        <div>
+          <!-- Card Header -->
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid rgba(24D, 240, 224, 0.1); padding-bottom: 15px;">
+            <span style="font-size: 24px;">🔬</span>
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; color: #E8940A; margin: 0; font-weight: 700; letter-spacing: 0.5px;">
+              Health Analysis Agent
+            </h3>
+          </div>
+
+          <!-- Metrics Container -->
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            
+            <!-- Metric 1: Blood Sugar -->
+            <div class="metric-row" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(196, 168, 130, 0.15);">
+              <div>
+                <div style="color: #FDF0E0; font-size: 13px; font-weight: 600;">Blood Sugar</div>
+                <div style="color: #C4A882; font-size: 11px;">Fasting, mg/dL</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 15px;">
+                <span id="metric-blood_sugar-val" style="color: #E8940A; font-weight: 700; font-size: 18px;">—</span>
+                <span id="metric-blood_sugar-badge" class="status-badge">—</span>
+              </div>
+            </div>
+
+            <!-- Metric 2: HbA1c -->
+            <div class="metric-row" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(196, 168, 130, 0.15);">
+              <div>
+                <div style="color: #FDF0E0; font-size: 13px; font-weight: 600;">HbA1c</div>
+                <div style="color: #C4A882; font-size: 11px;">Glycated Hemoglobin, %</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 15px;">
+                <span id="metric-hba1c-val" style="color: #E8940A; font-weight: 700; font-size: 18px;">—</span>
+                <span id="metric-hba1c-badge" class="status-badge">—</span>
+              </div>
+            </div>
+
+            <!-- Metric 3: Total Cholesterol -->
+            <div class="metric-row" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(196, 168, 130, 0.15);">
+              <div>
+                <div style="color: #FDF0E0; font-size: 13px; font-weight: 600;">Total Cholesterol</div>
+                <div style="color: #C4A882; font-size: 11px;">Serum Lipid, mg/dL</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 15px;">
+                <span id="metric-cholesterol-val" style="color: #E8940A; font-weight: 700; font-size: 18px;">—</span>
+                <span id="metric-cholesterol-badge" class="status-badge">—</span>
+              </div>
+            </div>
+
+            <!-- Metric 4: HDL -->
+            <div class="metric-row" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(196, 168, 130, 0.15);">
+              <div>
+                <div style="color: #FDF0E0; font-size: 13px; font-weight: 600;">HDL</div>
+                <div style="color: #C4A882; font-size: 11px;">Good Cholesterol, mg/dL</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 15px;">
+                <span id="metric-hdl-val" style="color: #E8940A; font-weight: 700; font-size: 18px;">—</span>
+                <span id="metric-hdl-badge" class="status-badge">—</span>
+              </div>
+            </div>
+
+            <!-- Metric 5: LDL -->
+            <div class="metric-row" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(196, 168, 130, 0.15);">
+              <div>
+                <div style="color: #FDF0E0; font-size: 13px; font-weight: 600;">LDL</div>
+                <div style="color: #C4A882; font-size: 11px;">Bad Cholesterol, mg/dL</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 15px;">
+                <span id="metric-ldl-val" style="color: #E8940A; font-weight: 700; font-size: 18px;">—</span>
+                <span id="metric-ldl-badge" class="status-badge">—</span>
+              </div>
+            </div>
+
+            <!-- Metric 6: Haemoglobin -->
+            <div class="metric-row" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(196, 168, 130, 0.15);">
+              <div>
+                <div style="color: #FDF0E0; font-size: 13px; font-weight: 600;">Haemoglobin</div>
+                <div style="color: #C4A882; font-size: 11px;">Oxygen Carrier, g/dL</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 15px;">
+                <span id="metric-haemoglobin-val" style="color: #E8940A; font-weight: 700; font-size: 18px;">—</span>
+                <span id="metric-haemoglobin-badge" class="status-badge">—</span>
+              </div>
+            </div>
+
+            <!-- Metric 7: BMI -->
+            <div class="metric-row" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(196, 168, 130, 0.15);">
+              <div>
+                <div style="color: #FDF0E0; font-size: 13px; font-weight: 600;">BMI</div>
+                <div style="color: #C4A882; font-size: 11px;">Body Mass Index, kg/m²</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 15px;">
+                <span id="metric-bmi-val" style="color: #E8940A; font-weight: 700; font-size: 18px;">—</span>
+                <span id="metric-bmi-badge" class="status-badge">—</span>
+              </div>
+            </div>
+
+            <!-- Metric 8: Vitamin D -->
+            <div class="metric-row" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0;">
+              <div>
+                <div style="color: #FDF0E0; font-size: 13px; font-weight: 600;">Vitamin D</div>
+                <div style="color: #C4A882; font-size: 11px;">25-hydroxy, ng/mL</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 15px;">
+                <span id="metric-vitamin_d-val" style="color: #E8940A; font-weight: 700; font-size: 18px;">—</span>
+                <span id="metric-vitamin_d-badge" class="status-badge">—</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2: Risk Assessment Agent -->
+      <div class="agent-card" style="background-color: #3D2414; border-top: 3px solid #E8940A; border-radius: 20px; padding: 25px; box-shadow: 0 8px 32px rgba(232,148,10,0.15); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease;">
+        <div>
+          <!-- Card Header -->
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid rgba(253, 240, 224, 0.1); padding-bottom: 15px;">
+            <span style="font-size: 24px;">⚠️</span>
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; color: #E8940A; margin: 0; font-weight: 700; letter-spacing: 0.5px;">
+              Risk Assessment Agent
+            </h3>
+          </div>
+
+          <!-- Circular SVG Gauge -->
+          <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 30px;">
+            <div style="position: relative; width: 120px; height: 120px;">
+              <svg width="120" height="120" viewBox="0 0 120 120" style="transform: rotate(-90deg);">
+                <!-- Track -->
+                <circle cx="60" cy="60" r="50" fill="transparent" stroke="#2C1A0E" stroke-width="8" />
+                <!-- Fill -->
+                <circle id="gauge-fill" cx="60" cy="60" r="50" fill="transparent" stroke="#E8940A" stroke-width="8"
+                        stroke-dasharray="314.16" stroke-dashoffset="314.16" stroke-linecap="round"
+                        style="transition: stroke-dashoffset 1s ease-in-out, stroke 1s ease;" />
+              </svg>
+              <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <span id="gauge-value" style="font-size: 28px; font-weight: 700; color: #E8940A; font-family: 'Playfair Display', serif; line-height: 1;">0</span>
+                <span style="font-size: 11px; color: #C4A882; margin-top: 2px;">/ 100 Index</span>
+              </div>
+            </div>
+            <div style="font-size: 12px; color: #C4A882; margin-top: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px;">
+              Global Risk Score
+            </div>
+          </div>
+
+          <!-- Risk Progress Bars -->
+          <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px;">
+            <!-- Bar 1: Diabetes -->
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px;">
+                <span style="color: #FDF0E0; font-weight: 600;">Diabetes Risk</span>
+                <span id="risk-diabetes-pct" style="color: #E8940A; font-weight: 700;">0%</span>
+              </div>
+              <div style="width: 100%; height: 6px; background-color: #2C1A0E; border-radius: 3px; overflow: hidden;">
+                <div id="risk-diabetes-fill" style="width: 0%; height: 100%; transition: width 1s ease-in-out; border-radius: 3px;"></div>
+              </div>
+            </div>
+
+            <!-- Bar 2: Cardiovascular -->
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px;">
+                <span style="color: #FDF0E0; font-weight: 600;">Cardiovascular Risk</span>
+                <span id="risk-cardio-pct" style="color: #E8940A; font-weight: 700;">0%</span>
+              </div>
+              <div style="width: 100%; height: 6px; background-color: #2C1A0E; border-radius: 3px; overflow: hidden;">
+                <div id="risk-cardio-fill" style="width: 0%; height: 100%; transition: width 1s ease-in-out; border-radius: 3px;"></div>
+              </div>
+            </div>
+
+            <!-- Bar 3: Obesity -->
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px;">
+                <span style="color: #FDF0E0; font-weight: 600;">Obesity Risk</span>
+                <span id="risk-obesity-pct" style="color: #E8940A; font-weight: 700;">0%</span>
+              </div>
+              <div style="width: 100%; height: 6px; background-color: #2C1A0E; border-radius: 3px; overflow: hidden;">
+                <div id="risk-obesity-fill" style="width: 0%; height: 100%; transition: width 1s ease-in-out; border-radius: 3px;"></div>
+              </div>
+            </div>
+
+            <!-- Bar 4: Nutritional -->
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px;">
+                <span style="color: #FDF0E0; font-weight: 600;">Nutritional Deficiency</span>
+                <span id="risk-nutrition-pct" style="color: #E8940A; font-weight: 700;">0%</span>
+              </div>
+              <div style="width: 100%; height: 6px; background-color: #2C1A0E; border-radius: 3px; overflow: hidden;">
+                <div id="risk-nutrition-fill" style="width: 0%; height: 100%; transition: width 1s ease-in-out; border-radius: 3px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detected Conditions List -->
+          <div style="border-top: 1px solid rgba(253, 240, 224, 0.1); padding-top: 20px;">
+            <h4 style="font-family: 'Playfair Display', serif; font-size: 15px; color: #E8940A; margin: 0 0 12px 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+              Detected Conditions
+            </h4>
+            <div id="conditions-list" style="display: flex; flex-direction: column; gap: 8px;">
+              <!-- Dynamic chips will go here -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+      
+      <!-- COLUMN 3 PLACEHOLDER: Mahathi will insert her Nutrition card here -->
+      <!-- <div class="agent-card">...</div> -->
+      
+    </div>
+
+  </div>
+</section>
+
+<!-- Additional Custom Embedded CSS for Section 4 -->
+<style>
+  .agent-card:hover {
+    box-shadow: 0 0 24px rgba(232, 148, 10, 0.3) !important;
+    transform: translateY(-5px);
+  }
+  
+  .status-badge {
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+  }
+  
+  @keyframes pulseIcon {
+    from { transform: scale(1); }
+    to { transform: scale(1.15); filter: drop-shadow(0 0 8px rgba(232,148,10,0.5)); }
+  }
+</style>
+
+<!-- SECTION 4 JAVASCRIPT EVENT HANDLING -->
+<script>
+  window.addEventListener('patientLoaded', (e) => {
+    const p = e.detail;
+    if (!p) return;
+    
+    // Hide empty state and show grid
+    const placeholder = document.getElementById('analysis-placeholder');
+    const grid = document.getElementById('analysis-grid');
+    
+    placeholder.style.display = 'none';
+    grid.style.display = 'grid';
+    setTimeout(() => {
+      grid.style.opacity = '1';
+    }, 50);
+
+    // ==========================================
+    // UPDATE CARD 1: Health Analysis Metrics
+    // ==========================================
+    
+    // 1. Blood Sugar (Fasting) normal <100, borderline 100-125, high >126
+    const bs = p.blood_sugar;
+    let bsStatus = 'Normal';
+    if (bs >= 126) bsStatus = 'High';
+    else if (bs >= 100) bsStatus = 'Borderline';
+    updateMetricRow('blood_sugar', bs, 'mg/dL', bsStatus);
+
+    // 2. HbA1c (%) normal <5.7, borderline 5.7-6.4, high >6.5
+    const a1c = p.hba1c;
+    let a1cStatus = 'Normal';
+    if (a1c >= 6.5) a1cStatus = 'High';
+    else if (a1c >= 5.7) a1cStatus = 'Borderline';
+    updateMetricRow('hba1c', a1c, '%', a1cStatus);
+
+    // 3. Total Cholesterol normal <200, borderline 200-239, high >240
+    const chol = p.cholesterol;
+    let cholStatus = 'Normal';
+    if (chol >= 240) cholStatus = 'High';
+    else if (chol >= 200) cholStatus = 'Borderline';
+    updateMetricRow('cholesterol', chol, 'mg/dL', cholStatus);
+
+    // 4. HDL normal 40-60, high >60 (good), low <40 (bad)
+    const hdl = p.hdl;
+    let hdlStatus = 'Normal';
+    if (hdl < 40) hdlStatus = 'Low'; // Bad low
+    else if (hdl > 60) hdlStatus = 'Optimal'; // High good
+    updateMetricRow('hdl', hdl, 'mg/dL', hdlStatus, hdlStatus === 'Low' ? 'High' : (hdlStatus === 'Optimal' ? 'Normal' : 'Normal'));
+
+    // 5. LDL normal <100, borderline 100-159, high >160
+    const ldl = p.ldl;
+    let ldlStatus = 'Normal';
+    if (ldl >= 160) ldlStatus = 'High';
+    else if (ldl >= 100) ldlStatus = 'Borderline';
+    updateMetricRow('ldl', ldl, 'mg/dL', ldlStatus);
+
+    // 6. Haemoglobin normal >12 (F) / >13 (M), low <12 / <13
+    const hg = p.haemoglobin;
+    const gender = (p.gender || 'Male').toLowerCase();
+    let hgStatus = 'Normal';
+    if (gender === 'female' && hg < 12) hgStatus = 'Low';
+    else if (gender !== 'female' && hg < 13) hgStatus = 'Low';
+    updateMetricRow('haemoglobin', hg, 'g/dL', hgStatus, hgStatus === 'Low' ? 'High' : 'Normal');
+
+    // 7. BMI normal 18.5-24.9, overweight 25-29.9, obese >30
+    const bmi = p.bmi;
+    let bmiStatus = 'Normal';
+    if (bmi >= 30) bmiStatus = 'High'; // Obese
+    else if (bmi >= 25) bmiStatus = 'Borderline'; // Overweight
+    else if (bmi < 18.5) bmiStatus = 'Low'; // Underweight
+    updateMetricRow('bmi', bmi, 'kg/m²', bmiStatus === 'High' ? 'Obese' : (bmiStatus === 'Borderline' ? 'Overweight' : (bmiStatus === 'Low' ? 'Underweight' : 'Normal')), bmiStatus);
+
+    // 8. Vitamin D normal >30, insufficient 20-30, deficient <20
+    const vitd = p.vitamin_d;
+    let vitdStatus = 'Normal';
+    if (vitd < 20) vitdStatus = 'Deficient';
+    else if (vitd <= 30) vitdStatus = 'Insufficient';
+    updateMetricRow('vitamin_d', vitd, 'ng/mL', vitdStatus === 'Deficient' ? 'Deficient' : (vitdStatus === 'Insufficient' ? 'Insufficient' : 'Normal'), vitdStatus === 'Deficient' ? 'High' : (vitdStatus === 'Insufficient' ? 'Borderline' : 'Normal'));
+
+
+    // ==========================================
+    // UPDATE CARD 2: Risk Assessment & Gauge
+    // ==========================================
+    
+    // Retrieve risk percentages
+    const rDiabetes = p.risks.diabetes || 0;
+    const rCardio = p.risks.cardiovascular || 0;
+    const rObesity = p.risks.obesity || 0;
+    const rNutrition = p.risks.nutritional || 0;
+
+    // Calculate Average Risk Score
+    const avgScore = Math.round((rDiabetes + rCardio + rObesity + rNutrition) / 4);
+
+    // Update SVG Gauge
+    const gaugeFill = document.getElementById('gauge-fill');
+    const gaugeVal = document.getElementById('gauge-value');
+    
+    // Animate counter text
+    animateNumber(gaugeVal, 0, avgScore, 1000);
+    
+    // Animate Gauge Dash Offset (Circumference is 314.16)
+    const circumference = 314.16;
+    const offset = circumference - (circumference * (avgScore / 100));
+    gaugeFill.style.strokeDashoffset = offset;
+    
+    // Color code gauge stroke based on score severity
+    let riskColor = '#16a34a'; // Green
+    if (avgScore > 60) riskColor = '#dc2626'; // Red
+    else if (avgScore >= 30) riskColor = '#E8940A'; // Amber
+    
+    gaugeFill.style.stroke = riskColor;
+    gaugeFill.style.filter = `drop-shadow(0 0 6px ${riskColor})`;
+    gaugeVal.style.color = riskColor;
+
+    // Update Progress Bars
+    updateProgressBar('diabetes', rDiabetes);
+    updateProgressBar('cardio', rCardio);
+    updateProgressBar('obesity', rObesity);
+    updateProgressBar('nutrition', rNutrition);
+
+    // Update Detected Conditions list
+    const conditionsContainer = document.getElementById('conditions-list');
+    conditionsContainer.innerHTML = '';
+    
+    if (p.conditions && p.conditions.length > 0) {
+      p.conditions.forEach(cond => {
+        const item = document.createElement('div');
+        item.style.backgroundColor = '#2C1A0E';
+        item.style.border = '1px solid rgba(248, 113, 113, 0.25)';
+        item.style.borderRadius = '10px';
+        item.style.padding = '10px 14px';
+        item.style.display = 'flex';
+        item.style.alignItems = 'center';
+        item.style.gap = '10px';
+        item.style.fontSize = '13px';
+        item.style.color = '#FDF0E0';
+        item.style.animation = 'bannerFade 0.4s ease';
+        
+        item.innerHTML = `
+          <span style="color: #F87171; font-size: 16px;">⚠️</span>
+          <span style="font-weight: 600;">${cond}</span>
+        `;
+        conditionsContainer.appendChild(item);
+      });
+    } else {
+      const item = document.createElement('div');
+      item.style.backgroundColor = 'rgba(74, 222, 128, 0.1)';
+      item.style.border = '1px solid rgba(74, 222, 128, 0.25)';
+      item.style.borderRadius = '10px';
+      item.style.padding = '10px 14px';
+      item.style.color = '#4ADE80';
+      item.style.fontSize = '13px';
+      item.style.fontWeight = '600';
+      item.style.textAlign = 'center';
+      item.innerHTML = '✅ No significant risks detected';
+      conditionsContainer.appendChild(item);
+    }
+  });
+
+  // Helper to update a single row in Card 1
+  function updateMetricRow(id, val, unit, statusLabel, severity = null) {
+    const valEl = document.getElementById(`metric-${id}-val`);
+    const badgeEl = document.getElementById(`metric-${id}-badge`);
+    
+    if (!valEl || !badgeEl) return;
+    
+    valEl.innerText = `${val}`;
+    badgeEl.innerText = statusLabel;
+    
+    // Reset classes
+    badgeEl.style.backgroundColor = '';
+    badgeEl.style.color = '';
+    
+    // Determine severity styling
+    const checkSeverity = severity || statusLabel;
+    if (checkSeverity === 'Normal' || checkSeverity === 'Optimal') {
+      badgeEl.style.backgroundColor = '#1A4A1A';
+      badgeEl.style.color = '#4ADE80';
+    } else if (checkSeverity === 'Borderline' || checkSeverity === 'Insufficient' || checkSeverity === 'Overweight') {
+      badgeEl.style.backgroundColor = '#4A3A00';
+      badgeEl.style.color = '#FCD34D';
+    } else {
+      // High, Low, Critical, Deficient, Obese, Underweight
+      badgeEl.style.backgroundColor = '#4A0000';
+      badgeEl.style.color = '#F87171';
+    }
+  }
+
+  // Helper to update progress bar widths and colors in Card 2
+  function updateProgressBar(id, percentage) {
+    const pctEl = document.getElementById(`risk-${id}-pct`);
+    const fillEl = document.getElementById(`risk-${id}-fill`);
+    
+    if (!pctEl || !fillEl) return;
+    
+    pctEl.innerText = `${percentage}%`;
+    fillEl.style.width = `${percentage}%`;
+    
+    // Color fill dynamically
+    if (percentage > 60) {
+      fillEl.style.backgroundColor = '#dc2626'; // Red
+      fillEl.style.boxShadow = '0 0 8px rgba(220, 38, 38, 0.4)';
+    } else if (percentage >= 30) {
+      fillEl.style.backgroundColor = '#E8940A'; // Amber
+      fillEl.style.boxShadow = '0 0 8px rgba(232, 148, 10, 0.4)';
+    } else {
+      fillEl.style.backgroundColor = '#16a34a'; // Green
+      fillEl.style.boxShadow = '0 0 8px rgba(22, 163, 74, 0.4)';
+    }
+  }
+
+  // Helper to animate gauge number loading
+  function animateNumber(element, start, end, duration) {
+    let startTime = null;
+    
+    function animation(currentTime) {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      element.innerText = Math.floor(progress * (end - start) + start);
+      if (progress < 1) {
+        requestAnimationFrame(animation);
+      } else {
+        element.innerText = end;
+      }
+    }
+    
+    requestAnimationFrame(animation);
+  }
+</script>
