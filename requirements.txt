@@ -1,0 +1,9 @@
+flask
+flask-cors
+pymupdf
+llama-index
+llama-index-embeddings-huggingface
+chromadb
+groq
+sentence-transformers
+torch
